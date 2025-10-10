@@ -24,6 +24,7 @@ data/**/.gitkeep
 data/**/README.md
 !data/01_raw/sample.csv
 !.gitkeep
+Used_Car_Price_Prediction.csv
 
 # jeśli ktoś pracuje na Macu
 .DS_Store
