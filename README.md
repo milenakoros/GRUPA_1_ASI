@@ -70,3 +70,33 @@ Zbiór danych przedstawia szczegółowe informacje o samochodach używanych ofer
 Zbiór danych **nie zawiera danych osobowych (PII)** ani informacji wrażliwych.  
 Wszystkie rekordy dotyczą wyłącznie **cech technicznych pojazdów** i danych rynkowych.  
 
+
+### Kedro Quickstart
+1. Upewnij się, że środowisko jest poprawnie zainstalowane:
+   ```bash
+   conda env create -f environment.yml
+   conda activate asi-ml
+   ```
+
+2. Zaloguj się do **Weights & Biases (W&B)**:
+   ```bash
+   wandb login
+   ```
+
+3. Aktywuj środowisko (jeśli nie jest aktywne):
+   ```bash
+   conda activate asi-ml
+   ```
+
+4. Uruchom pełny pipeline:
+   ```bash
+   kedro run
+   ```
+   lub jawnie wywołaj konkretny pipeline:
+   ```bash
+   kedro run --pipeline data_science
+   ```
+
+5. Sprawdź wyniki:
+   - Model zapisany w: data/06_models/model_baseline.pkl
+   - Metryki zapisane w: data/09_tracking/metrics_baseline.json
