@@ -1,0 +1,32 @@
+raw_data: 
+  type: pandas.CSVDataSet 
+  filepath: data/01_raw/used_cars_sample.csv 
+
+clean_data: 
+  type: pandas.ParquetDataSet 
+  filepath: data/02_interim/clean.parquet 
+
+X_train: 
+  type: pandas.ParquetDataSet 
+  filepath: data/03_processed/X_train.parquet 
+
+X_test: 
+  type: pandas.ParquetDataSet 
+  filepath: data/03_processed/X_test.parquet 
+
+y_train: 
+  type: pandas.ParquetDataSet 
+  filepath: data/03_processed/y_train.parquet 
+
+y_test: 
+  type: pandas.ParquetDataSet 
+  filepath: data/03_processed/y_test.parquet 
+
+ 
+model_baseline: 
+  type: pickle.PickleDataSet 
+  filepath: data/06_models/model_baseline.pkl 
+
+metrics_baseline: 
+  type: tracking.MetricsDataSet 
+  filepath: data/09_tracking/metrics_baseline.json 

@@ -1,0 +1,7 @@
+split:
+  test_size: 0.2
+  random_state: 42
+
+model:
+  kind: "linear_regression"
+  max_iter: 1000
