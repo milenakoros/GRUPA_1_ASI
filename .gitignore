@@ -20,6 +20,8 @@ data/*
 !data/01_raw/
 !data/02_interim/
 !data/03_processed/
+!data/06_models/
+!data/09_tracking/
 data/**/.gitkeep
 data/**/README.md
 !data/01_raw/sample.csv
