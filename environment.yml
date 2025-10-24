@@ -11,6 +11,10 @@ dependencies:
   - scikit-learn
   - matplotlib
   - pip
+  - kedro
+  - kedro-datasets[pandas]
+  - pyarrow
+  - pandera
   - pip:
       - pre-commit
       - ruff
