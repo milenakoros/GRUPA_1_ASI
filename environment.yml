@@ -15,6 +15,7 @@ dependencies:
   - kedro-datasets[pandas]
   - pyarrow
   - pandera
+  - pyspark
   - pip:
       - pre-commit
       - ruff
