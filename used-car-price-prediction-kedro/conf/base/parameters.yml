@@ -4,3 +4,5 @@ split:
 
 model:
   random_state: 42
+  n_estimators: 100
+  criterion: "squared_error"
