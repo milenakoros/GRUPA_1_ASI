@@ -5,3 +5,27 @@ raw_data:
 clean_data:
   type: pandas.CSVDataset
   filepath: data/02_interim/cleaned_used_cars.csv
+
+X_train:
+  type: pandas.CSVDataset
+  filepath: data/03_processed/X_train.csv
+
+X_test:
+  type: pandas.CSVDataset
+  filepath: data/03_processed/X_test.csv
+
+y_train:
+  type: pandas.CSVDataset
+  filepath: data/03_processed/y_train.csv
+
+y_test:
+  type: pandas.CSVDataset
+  filepath: data/03_processed/y_test.csv
+
+model_baseline:
+  type: pickle.PickleDataset
+  filepath: data/06_models/model_baseline.pkl
+
+metrics:
+  type: json.JSONDataset
+  filepath: data/09_tracking/metrics.json
