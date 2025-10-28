@@ -28,7 +28,7 @@ def create_pipeline(**kwargs) -> Pipeline:
         ),
         Node(
             func=nodes.train_baseline,
-            inputs=['X_train', 'y_train', 'params:model.random_state'],
+            inputs=['X_train', 'y_train', 'params:model'],
             outputs='model_baseline',
             name='train_baseline'
         ),

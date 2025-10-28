@@ -17,6 +17,7 @@ from sklearn.metrics import mean_squared_error
 
 from kedro_datasets.json import JSONDataset
 from kedro_datasets.pickle import PickleDataset
+import wandb
 
 from .df_structure import columns
 
@@ -67,8 +68,13 @@ def split_to_train_test(df: pd.DataFrame, test_size: float, random_state: int) -
 
     return X_train, X_test, y_train, y_test
 
-def train_baseline(X_train: pd.DataFrame, y_train: pd.DataFrame, random_state: int) -> PickleDataset:
-    model = RandomForestRegressor(random_state=random_state)
+def train_baseline(X_train: pd.DataFrame, y_train: pd.DataFrame, params: dict) -> PickleDataset:
+    model = RandomForestRegressor(
+        random_state=params['random_state'],
+        n_estimators=params['n_estimators'],
+        criterion=params['criterion']
+    )
+
     model.fit(X_train, y_train)
 
     return model
@@ -77,4 +83,16 @@ def evaluate(model: PickleDataset, X_test: pd.DataFrame, y_test: pd.DataFrame) -
     y_pred = model.predict(X_test)
     rmse = np.sqrt(mean_squared_error(y_test, y_pred))
 
-    return {'RMSE': float(f'{rmse:.2f}')}
+    metrics = {"RMSE": float(round(rmse, 2))}
+
+    # Log do W&B
+    wandb.init(project="used-car-price-prediction", job_type="evaluate", reinit=True)
+    wandb.log(metrics)
+
+    art = wandb.Artifact("model_baseline", type="model")
+    art.add_file("data/06_models/model_baseline.pkl")
+    wandb.log_artifact(art)
+
+    wandb.finish()
+
+    return metrics
