@@ -160,7 +160,7 @@ X_test.csv
 y_train.csv
 y_test.csv
 model_baseline.pkl
-metrics.json
+metrics_baseline.json
 
 # mkdocs documentation
 /site

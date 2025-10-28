@@ -35,7 +35,7 @@ def create_pipeline(**kwargs) -> Pipeline:
         Node(
             func=nodes.evaluate,
             inputs=['model_baseline', 'X_test', 'y_test'],
-            outputs='metrics',
+            outputs='metrics_baseline',
             name='evaluate'
         )
     ])

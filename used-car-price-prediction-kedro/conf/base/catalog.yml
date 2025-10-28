@@ -26,6 +26,6 @@ model_baseline:
   type: pickle.PickleDataset
   filepath: data/06_models/model_baseline.pkl
 
-metrics:
+metrics_baseline:
   type: json.JSONDataset
-  filepath: data/09_tracking/metrics.json
+  filepath: data/09_tracking/metrics_baseline.json
