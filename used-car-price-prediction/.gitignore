@@ -151,6 +151,16 @@ ENV/
 env.bak/
 venv.bak/
 
+# Data
+Used_Car_Price_Prediction.csv
+cleaned_used_cars.csv
+X_train.csv
+X_test.csv
+y_train.csv
+y_test.csv
+model_baseline.pkl
+metrics.json
+
 # mkdocs documentation
 /site
 
