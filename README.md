@@ -94,7 +94,11 @@ Wszystkie rekordy dotyczą wyłącznie **cech technicznych pojazdów** i danych 
    ```
    lub jawnie wywołaj konkretny pipeline:
    ```bash
-   kedro run --pipeline data_science
+   kedro run --pipeline {nazwa_pipeline'a}
+   ```
+   albo tylko konkretny node
+   ```
+   kedro run --nodes {nazwa_nodu}
    ```
 
 5. Sprawdź wyniki:
