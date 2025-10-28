@@ -17,6 +17,7 @@ from sklearn.metrics import mean_squared_error
 
 from kedro_datasets.json import JSONDataset
 from kedro_datasets.pickle import PickleDataset
+import wandb
 
 from .df_structure import columns
 
@@ -77,4 +78,10 @@ def evaluate(model: PickleDataset, X_test: pd.DataFrame, y_test: pd.DataFrame) -
     y_pred = model.predict(X_test)
     rmse = np.sqrt(mean_squared_error(y_test, y_pred))
 
-    return {'RMSE': float(f'{rmse:.2f}')}
+    metrics = {"RMSE": float(round(rmse, 2))}
+
+    # Log do W&B
+    wandb.init(project="used-car-price-prediction", job_type="evaluate", reinit=True)
+    wandb.log(metrics)
+    wandb.finish()
+    return metrics
