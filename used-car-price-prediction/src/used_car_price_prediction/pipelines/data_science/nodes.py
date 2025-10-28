@@ -9,7 +9,14 @@ import seaborn as sns
 import math
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+
 from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error
+
+from kedro_datasets.json import JSONDataset
+from kedro_datasets.pickle import PickleDataset
 
 from .df_structure import columns
 
@@ -46,4 +53,28 @@ def basic_clean(df: pd.DataFrame) -> pd.DataFrame:
     for column_label in columns['BOOLEAN']:
         df[column_label] = df[column_label].astype(int)
 
+    # (TYMACZASOWE) Usunięcie szkodliwej kolumny
+    df = df.drop(columns='ad_created_on')
+
     return df
+
+def split_to_train_test(df: pd.DataFrame, test_size: float, random_state: int) -> pd.DataFrame:
+    x = df.drop('sale_price', axis=1)
+    y = df['sale_price']
+    X_train, X_test, y_train, y_test = train_test_split(
+        x, y, test_size=test_size, random_state=random_state
+    )
+
+    return X_train, X_test, y_train, y_test
+
+def train_baseline(X_train: pd.DataFrame, y_train: pd.DataFrame, random_state: int) -> PickleDataset:
+    model = RandomForestRegressor(random_state=random_state)
+    model.fit(X_train, y_train)
+
+    return model
+
+def evaluate(model: PickleDataset, X_test: pd.DataFrame, y_test: pd.DataFrame) -> JSONDataset:
+    y_pred = model.predict(X_test)
+    rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+
+    return {'RMSE': float(f'{rmse:.2f}')}
