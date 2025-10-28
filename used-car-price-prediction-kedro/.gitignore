@@ -150,6 +150,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+wandb
 
 # Data
 Used_Car_Price_Prediction.csv
