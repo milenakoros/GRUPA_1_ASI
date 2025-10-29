@@ -62,6 +62,7 @@ source_dir = "src"
 addopts = """
 --cov-report term-missing \
 --cov src/used_car_price_prediction -ra"""
+pythonpath = ["src"]
 
 [tool.coverage.report]
 fail_under = 0
