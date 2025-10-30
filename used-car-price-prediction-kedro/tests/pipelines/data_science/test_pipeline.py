@@ -116,7 +116,7 @@ class TestDataScienceNodes:
         model = RandomForestRegressor().fit(pd.DataFrame({'f': [1,2]}), pd.Series([1,2]))
         X_test = pd.DataFrame({'f': [1, 2, 3]})
         y_test = pd.Series([1, 2, 3.5])
-        
+
         # Mock wandb to avoid actual logging during tests
         metrics = evaluate(model, X_test, y_test)
 
