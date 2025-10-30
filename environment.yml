@@ -8,12 +8,19 @@ dependencies:
   - ipykernel
   - numpy
   - pandas
+  - seaborn
   - scikit-learn
   - matplotlib
   - pip
+  - kedro
+  - kedro-datasets[pandas]
+  - pyarrow
+  - pandera
+  - pyspark
   - pip:
       - pre-commit
       - ruff
       - black
       - pytest
       - wandb
+      - pytest-cov

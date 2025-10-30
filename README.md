@@ -4,18 +4,18 @@ ZBIÓR DANYCH: Used Car Price Prediction Dataset 🚗
 
 ### O zbiorze danych
 
-**Nazwa:** Used Car Price Prediction Dataset  
-**Źródło:** [Kaggle – Used Car Price Prediction Dataset](https://www.kaggle.com/datasets/vrajesh0sharma7/used-car-price-prediction/data)  
+**Nazwa:** Used Car Price Prediction Dataset
+**Źródło:** [Kaggle – Used Car Price Prediction Dataset](https://www.kaggle.com/datasets/vrajesh0sharma7/used-car-price-prediction/data)
 **Zakres początkowy:** 7 400 ogłoszeń samochodów używanych w Indiach opisanych za pomocą 29 cech technicznych i rynkowych.
 
 ---
 
-### Opis  
+### Opis
 Zbiór danych przedstawia szczegółowe informacje o samochodach używanych oferowanych na sprzedaż na terenie Indii. Obejmuje zarówno dane techniczne pojazdów (np. marka, model, rok produkcji, przebieg), jak i czynniki rynkowe wpływające na cenę (np. miasto, liczba wyświetleń, typ nadwozia, dostępność gwarancji).
 
 ---
 
-### Opis kolumn  
+### Opis kolumn
 
 | Kolumna | Opis |
 |----------|------|
@@ -51,22 +51,64 @@ Zbiór danych przedstawia szczegółowe informacje o samochodach używanych ofer
 
 ---
 
-### Kluczowe informacje  
-- **Liczba rekordów:** 7 400  
-- **Liczba kolumn:** 29 (numeryczne, kategoryczne i logiczne)  
-- **Zmienna docelowa:** `sale_price`  
-- **Potencjalne zastosowania:** predykcja cen, analiza trendów, modelowanie zachowań kupujących  
+### Kluczowe informacje
+- **Liczba rekordów:** 7 400
+- **Liczba kolumn:** 29 (numeryczne, kategoryczne i logiczne)
+- **Zmienna docelowa:** `sale_price`
+- **Potencjalne zastosowania:** predykcja cen, analiza trendów, modelowanie zachowań kupujących
 
 ---
 
-### Licencja i źródło  
-- **Licencja:** CC0 – Public Domain  
+### Licencja i źródło
+- **Licencja:** CC0 – Public Domain
 - **Data pobrania danych:** 10.10.2025
 - Dane są publicznie dostępne do celów edukacyjnych i analitycznych.
 
 ---
 
-### Prywatność i bezpieczeństwo danych  
-Zbiór danych **nie zawiera danych osobowych (PII)** ani informacji wrażliwych.  
-Wszystkie rekordy dotyczą wyłącznie **cech technicznych pojazdów** i danych rynkowych.  
+### Prywatność i bezpieczeństwo danych
+Zbiór danych **nie zawiera danych osobowych (PII)** ani informacji wrażliwych.
+Wszystkie rekordy dotyczą wyłącznie **cech technicznych pojazdów** i danych rynkowych.
 
+
+### Kedro Quickstart
+1. Utwórz środowisko conda:
+   ```bash
+   #utworzenie środowiska
+   conda env create -f environment.yml
+
+   #aktywacja środowiska
+   conda activate asi-ml
+
+   #aktualizacja środowiska
+   conda env update -f environment.yml --prune #aktualizacja środowiska
+   ```
+
+2. Zaloguj się do **Weights & Biases (W&B)**:
+   ```bash
+   wandb login
+   ```
+
+4. Uruchom kedro pipeline'y:
+   ```bash
+   kedro run
+
+   #wywołaj konkretny pipeline
+   kedro run --pipeline {nazwa_pipeline'a}
+
+   #wywołaj tylko konkretny node
+   kedro run --nodes {nazwa_nodu}
+   ```
+
+5. Testy pytest
+   ```bash
+   #wykonaj wszystkie testy
+   pytest -q
+
+   #wykonaj konkretny test
+   pytest -q tests/pipelines/data_science/test_pipeline.py::TestDataScienceNodes::test_basic_clean
+   ```
+
+5. Sprawdź wyniki:
+   - Model zapisany w: data/06_models/model_baseline.pkl
+   - Metryki zapisane w: data/09_tracking/metrics_baseline.json
