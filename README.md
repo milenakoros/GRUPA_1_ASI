@@ -72,10 +72,16 @@ Wszystkie rekordy dotyczą wyłącznie **cech technicznych pojazdów** i danych 
 
 
 ### Kedro Quickstart
-1. Upewnij się, że środowisko jest poprawnie zainstalowane:
+1. Utwórz środowisko conda:
    ```bash
+   #utworzenie środowiska
    conda env create -f environment.yml
+   
+   #aktywacja środowiska
    conda activate asi-ml
+   
+   #aktualizacja środowiska
+   conda env update -f environment.yml --prune #aktualizacja środowiska
    ```
 
 2. Zaloguj się do **Weights & Biases (W&B)**:
@@ -83,22 +89,24 @@ Wszystkie rekordy dotyczą wyłącznie **cech technicznych pojazdów** i danych 
    wandb login
    ```
 
-3. Aktywuj środowisko (jeśli nie jest aktywne):
-   ```bash
-   conda activate asi-ml
-   ```
-
-4. Uruchom pełny pipeline:
+4. Uruchom kedro pipeline'y:
    ```bash
    kedro run
-   ```
-   lub jawnie wywołaj konkretny pipeline:
-   ```bash
+   
+   #wywołaj konkretny pipeline
    kedro run --pipeline {nazwa_pipeline'a}
+   
+   #wywołaj tylko konkretny node
+   kedro run --nodes {nazwa_nodu} 
    ```
-   albo tylko konkretny node
-   ```
-   kedro run --nodes {nazwa_nodu}
+
+5. Testy pytest
+   ```bash
+   #wykonaj wszystkie testy
+   pytest -q
+   
+   #wykonaj konkretny test 
+   pytest -q tests/pipelines/data_science/test_pipeline.py::TestDataScienceNodes::test_basic_clean 
    ```
 
 5. Sprawdź wyniki:
