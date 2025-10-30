@@ -76,10 +76,10 @@ Wszystkie rekordy dotyczą wyłącznie **cech technicznych pojazdów** i danych 
    ```bash
    #utworzenie środowiska
    conda env create -f environment.yml
-   
+
    #aktywacja środowiska
    conda activate asi-ml
-   
+
    #aktualizacja środowiska
    conda env update -f environment.yml --prune #aktualizacja środowiska
    ```
@@ -92,21 +92,21 @@ Wszystkie rekordy dotyczą wyłącznie **cech technicznych pojazdów** i danych 
 4. Uruchom kedro pipeline'y:
    ```bash
    kedro run
-   
+
    #wywołaj konkretny pipeline
    kedro run --pipeline {nazwa_pipeline'a}
-   
+
    #wywołaj tylko konkretny node
-   kedro run --nodes {nazwa_nodu} 
+   kedro run --nodes {nazwa_nodu}
    ```
 
 5. Testy pytest
    ```bash
    #wykonaj wszystkie testy
    pytest -q
-   
-   #wykonaj konkretny test 
-   pytest -q tests/pipelines/data_science/test_pipeline.py::TestDataScienceNodes::test_basic_clean 
+
+   #wykonaj konkretny test
+   pytest -q tests/pipelines/data_science/test_pipeline.py::TestDataScienceNodes::test_basic_clean
    ```
 
 5. Sprawdź wyniki:
