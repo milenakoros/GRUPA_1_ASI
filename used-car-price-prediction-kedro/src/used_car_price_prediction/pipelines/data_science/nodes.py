@@ -17,6 +17,7 @@ from sklearn.metrics import mean_squared_error
 
 from kedro_datasets.json import JSONDataset
 from kedro_datasets.pickle import PickleDataset
+from autogluon.tabular import TabularPredictor
 import wandb
 
 from .df_structure import columns
@@ -96,3 +97,50 @@ def evaluate(model: PickleDataset, X_test: pd.DataFrame, y_test: pd.DataFrame) -
     wandb.finish()
 
     return metrics
+
+def train_autogluon(X_train: pd.DataFrame, y_train: pd.DataFrame, params: dict, random_state: int) -> TabularPredictor:
+    train_data = X_train.copy()
+    train_data[params["label"]] = y_train
+
+    predictor = TabularPredictor(
+        label=params["label"],
+        problem_type=params.get("problem_type"),
+        eval_metric=params.get("eval_metric"),
+        path="autogluon"
+    ).fit(
+        train_data=train_data,
+        time_limit=params.get("time_limit"),
+        presets=params.get("presets"),
+        ag_args_fit={'random_state': random_state}
+    )
+
+    return predictor
+
+def evaluate_autogluon(ag_predictor: TabularPredictor, X_test: pd.DataFrame, y_test: pd.DataFrame, params: dict) -> dict:
+    y_test_series = y_test.squeeze()
+
+    predictions = ag_predictor.predict(X_test)
+    perf = ag_predictor.evaluate_predictions(y_true=y_test_series, y_pred=predictions)
+
+    # Log metrics to W&B
+    notes = f"AutoGluon params: {params}"
+    wandb.init(project="used-car-price-prediction", job_type="evaluate_autogluon", reinit=True, config=ag_predictor.fit_summary(), notes=notes)
+    wandb.log(perf)
+
+    art = wandb.Artifact("model_autogluon", type="model")
+    art.add_file("data/06_models/ag_production.pkl")
+    wandb.log_artifact(art, aliases=["candidate"])    # aliases=["production"] dla najlepszego modelu
+
+    X_test_with_label = X_test.copy()
+    X_test_with_label["sale_price"] = y_test
+
+    # Feature importance
+    importance = ag_predictor.feature_importance(data=X_test_with_label, model=None)
+    plt.figure(figsize=(8, 6))
+    importance["importance"].plot(kind="barh")
+    plt.title("Feature Importance (AutoGluon)")
+    plt.tight_layout()
+    wandb.log({"feature_importance": wandb.Image(plt)})
+    wandb.finish()
+
+    return perf
