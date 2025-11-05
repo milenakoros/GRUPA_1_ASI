@@ -108,12 +108,12 @@ To automatically strip out all output cell contents before committing to `git`, 
 | optimize_for_deployment     | r2          |       100      |   36 398.52   |   22 624.13  |   0.9747   | 
 | extreme_quality             | rmse        |       500      |   17 795.75   |   5 247.70   |   0.9939   | 
 
-### 🏁 Wniosek
+### Wniosek
 Do oceny jakości modeli regresyjnych wybrano trzy główne miary: **RMSE**, **MAE** oraz **R²**.
 
 * **RMSE (Root Mean Squared Error)** pokazuje, jak duże są przeciętne odchylenia prognoz od wartości rzeczywistych – im mniejsza wartość, tym dokładniejsze przewidywania. Jest czuły na duże błędy, dlatego dobrze pokazuje stabilność modelu.
 * **MAE (Mean Absolute Error)** mierzy średni błąd bezwzględny, mniej podatny na wartości odstające, przez co lepiej odzwierciedla ogólną dokładność w typowych przypadkach.
 * **R² (Współczynnik determinacji)** informuje, jak dobrze model wyjaśnia zmienność danych – wartość bliska 1 oznacza bardzo dobrą jakość dopasowania niezależnie od skali danych.
 
-Na podstawie tych metryk można zauważyć, że konfiguracja **`best_quality`** z limitem czasu **300 sekund** osiągnęła najlepsze wyniki.
+Na podstawie tych metryk można zauważyć, że konfiguracja **`best_quality`** z limitem czasu 300 sekund osiągnęła najlepsze wyniki.
 Model ten zapewnia najwyższą precyzję prognoz przy umiarkowanym czasie treningu, dlatego został uznany za najlepszy kompromis między dokładnością a wydajnością.
