@@ -98,3 +98,22 @@ To automatically strip out all output cell contents before committing to `git`, 
 ## Package your Kedro project
 
 [Further information about building project documentation and packaging your project](https://docs.kedro.org/en/stable/tutorial/package_a_project.html)
+
+## Wyniki eksperymentów AutoGluon
+
+| Presets                     | Eval Metric | Time Limit (s) |     RMSE ↓    |     MAE ↓    |    R² ↑    |                             
+| :-------------------------- | :---------- | :------------: | :-----------: | :----------: | :--------: | 
+| medium_quality_faster_train | rmse        |       120      |   36 398.52   |   22 624.13  |   0.9747   | 
+| best_quality                | mae         |       300      |   11 362.58   |   2 881.45   |   0.9975   |
+| optimize_for_deployment     | r2          |       100      |   36 398.52   |   22 624.13  |   0.9747   | 
+| extreme_quality             | rmse        |       500      |   17 795.75   |   5 247.70   |   0.9939   | 
+
+### 🏁 Wniosek
+Do oceny jakości modeli regresyjnych wybrano trzy główne miary: **RMSE**, **MAE** oraz **R²**.
+
+* **RMSE (Root Mean Squared Error)** pokazuje, jak duże są przeciętne odchylenia prognoz od wartości rzeczywistych – im mniejsza wartość, tym dokładniejsze przewidywania. Jest czuły na duże błędy, dlatego dobrze pokazuje stabilność modelu.
+* **MAE (Mean Absolute Error)** mierzy średni błąd bezwzględny, mniej podatny na wartości odstające, przez co lepiej odzwierciedla ogólną dokładność w typowych przypadkach.
+* **R² (Współczynnik determinacji)** informuje, jak dobrze model wyjaśnia zmienność danych – wartość bliska 1 oznacza bardzo dobrą jakość dopasowania niezależnie od skali danych.
+
+Na podstawie tych metryk można zauważyć, że konfiguracja **`best_quality`** z limitem czasu **300 sekund** osiągnęła najlepsze wyniki.
+Model ten zapewnia najwyższą precyzję prognoz przy umiarkowanym czasie treningu, dlatego został uznany za najlepszy kompromis między dokładnością a wydajnością.
