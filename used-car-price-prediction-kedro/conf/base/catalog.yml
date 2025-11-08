@@ -29,7 +29,7 @@ model_baseline:
 metrics_baseline:
   type: json.JSONDataset
   filepath: data/09_tracking/metrics_baseline.json
-  
+
 model_autogluon:
   type: pickle.PickleDataset
   filepath: data/06_models/ag_production.pkl

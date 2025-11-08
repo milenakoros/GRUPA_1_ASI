@@ -129,7 +129,7 @@ def evaluate_autogluon(ag_predictor: TabularPredictor, X_test: pd.DataFrame, y_t
 
     art = wandb.Artifact("model_autogluon", type="model")
     art.add_file("data/06_models/ag_production.pkl")
-    wandb.log_artifact(art, aliases=["candidate"])    # aliases=["production"] dla najlepszego modelu
+    wandb.log_artifact(art, aliases=["production"])    # aliases=["production"] dla najlepszego modelu; aliases=["candidate"]  dla modelu kandydującego
 
     X_test_with_label = X_test.copy()
     X_test_with_label["sale_price"] = y_test

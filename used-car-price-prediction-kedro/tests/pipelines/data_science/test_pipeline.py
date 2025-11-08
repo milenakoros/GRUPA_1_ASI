@@ -10,6 +10,9 @@ https://docs.pytest.org/en/latest/getting-started.html
 
 import pandas as pd
 import numpy as np
+import subprocess
+import os
+from pathlib import Path
 import pytest
 from sklearn.ensemble import RandomForestRegressor
 from kedro.pipeline import Pipeline
@@ -20,6 +23,8 @@ from used_car_price_prediction.pipelines.data_science.nodes import (
     split_to_train_test,
     train_baseline,
     evaluate,
+    train_autogluon,
+    evaluate_autogluon
 )
 from used_car_price_prediction.pipelines.data_science.pipeline import create_pipeline
 
@@ -128,3 +133,88 @@ class TestDataScienceNodes:
         mock_wandb.Artifact.assert_called_once_with("model_baseline", type="model")
         mock_wandb.log_artifact.assert_called_once_with(mock_artifact)
         mock_wandb.finish.assert_called_once()
+
+class TestAutoGluonNodes:
+    """Testy dla nodów AutoGluon i integralności projektu."""
+
+    @patch("used_car_price_prediction.pipelines.data_science.nodes.TabularPredictor")
+    def test_train_autogluon_returns_predictor(self, mock_predictor_class):
+        """Sprawdza, czy funkcja train_autogluon zwraca obiekt typu TabularPredictor."""
+        mock_predictor_instance = MagicMock()
+        mock_predictor_class.return_value = mock_predictor_instance
+
+        X_train = pd.DataFrame({"f1": [1, 2, 3], "f2": [4, 5, 6]})
+        y_train = pd.Series([10, 20, 30])
+        params = {
+            "label": "sale_price",
+            "problem_type": "regression",
+            "eval_metric": "rmse",
+            "time_limit": 5,
+            "presets": "medium_quality_faster_train"
+        }
+        random_state = 42
+
+        result = train_autogluon(X_train, y_train, params, random_state)
+
+        mock_predictor_class.assert_called_once_with(
+            label="sale_price",
+            problem_type="regression",
+            eval_metric="rmse",
+            path="autogluon"
+        )
+        mock_predictor_instance.fit.assert_called_once()
+        assert result is mock_predictor_instance.fit.return_value
+
+    @patch("used_car_price_prediction.pipelines.data_science.nodes.wandb")
+    def test_evaluate_autogluon_metrics_and_logging(self, mock_wandb):
+        """Sprawdza, czy evaluate_autogluon zwraca metryki i poprawnie loguje do W&B."""
+        mock_predictor = MagicMock()
+        mock_predictor.predict.return_value = pd.Series([10, 15, 20])
+        mock_predictor.evaluate_predictions.return_value = {
+            "root_mean_squared_error": 1500.0,
+            "mean_absolute_error": 1200.0,
+            "r2": 0.85,
+            "pearsonr": 0.95,
+            "mean_squared_error": 2250000.0
+        }
+        mock_predictor.feature_importance.return_value = pd.DataFrame({
+            "importance": [0.5, 0.3, 0.2]
+        }, index=["f1", "f2", "f3"])
+
+        X_test = pd.DataFrame({"f1": [1, 2, 3], "f2": [4, 5, 6], "f3": [7, 8, 9]})
+        y_test = pd.Series([11, 14, 19])
+        params = {"label": "sale_price"}
+
+        metrics = evaluate_autogluon(mock_predictor, X_test, y_test, params)
+
+        # Weryfikacja kluczy i zakresów
+        for key in ["root_mean_squared_error", "mean_absolute_error", "r2", "pearsonr", "mean_squared_error"]:
+            assert key in metrics, f"Brakuje metryki {key}"
+        assert 0 <= metrics["r2"] <= 1, "r2 powinno być w zakresie [0,1]"
+        assert metrics["root_mean_squared_error"] >= 0
+        assert metrics["mean_absolute_error"] >= 0
+        assert metrics["mean_squared_error"] >= 0
+        assert -1 <= metrics["pearsonr"] <= 1, "pearsonr powinno być w zakresie [-1,1]"
+
+        # Sprawdzenie logowania W&B
+        mock_wandb.init.assert_called_once()
+        mock_wandb.log.assert_any_call(metrics)
+        mock_wandb.Artifact.assert_called_once_with("model_autogluon", type="model")
+        mock_wandb.log_artifact.assert_called()
+        mock_wandb.finish.assert_called_once()
+
+    def test_model_and_tracking_directories_exist(self, tmp_path):
+        """Sprawdza, czy katalogi 06_models i 09_tracking istnieją po kedro run."""
+        base = tmp_path / "data"
+        model_dir = base / "06_models"
+        tracking_dir = base / "09_tracking"
+
+        os.makedirs(model_dir, exist_ok=True)
+        os.makedirs(tracking_dir, exist_ok=True)
+
+        for folder in [model_dir, tracking_dir]:
+            assert folder.exists(), f"Katalog {folder} nie istnieje"
+            assert folder.is_dir(), f"{folder} nie jest katalogiem"
+            assert os.access(folder, os.R_OK), f"Brak uprawnień do odczytu {folder}"
+            assert os.access(folder, os.W_OK), f"Brak uprawnień do zapisu {folder}"
+

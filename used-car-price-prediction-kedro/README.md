@@ -101,12 +101,15 @@ To automatically strip out all output cell contents before committing to `git`, 
 
 ## Wyniki eksperymentów AutoGluon
 
-| Presets                     | Eval Metric | Time Limit (s) |     RMSE ↓    |     MAE ↓    |    R² ↑    |                             
-| :-------------------------- | :---------- | :------------: | :-----------: | :----------: | :--------: | 
-| medium_quality_faster_train | rmse        |       120      |   36 398.52   |   22 624.13  |   0.9747   | 
-| best_quality                | mae         |       300      |   11 362.58   |   2 881.45   |   0.9975   |
-| optimize_for_deployment     | r2          |       100      |   36 398.52   |   22 624.13  |   0.9747   | 
-| extreme_quality             | rmse        |       500      |   17 795.75   |   5 247.70   |   0.9939   | 
+### W&B
+Link do projektu: https://wandb.ai/GRUPA_1_ASI/used-car-price-prediction/
+
+| Presets                     | Eval Metric | Time Limit (s) |     RMSE ↓    |     MAE ↓    |    R² ↑    |
+| :-------------------------- | :---------- | :------------: | :-----------: | :----------: | :--------: |
+| medium_quality_faster_train | rmse        |       120      |   22 011.67   |   9 086.74   |   0.9942   |
+| best_quality                | mae         |       300      |   18 500.84   |   769.424    |   0.996    |
+| optimize_for_deployment     | r2          |       100      |   21 940.19   |   9 185.8    |   0.9943   |
+| extreme_quality             | rmse        |       500      |   52 031.33   |   7 919.12   |   0.9681   |
 
 ### Wniosek
 Do oceny jakości modeli regresyjnych wybrano trzy główne miary: **RMSE**, **MAE** oraz **R²**.

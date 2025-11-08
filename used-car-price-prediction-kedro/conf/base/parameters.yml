@@ -8,8 +8,8 @@ model:
   criterion: "squared_error"
 
 autogluon:
-    time_limit: 300         
-    presets: "best_quality" 
-    problem_type: "regression"  
+    time_limit: 300
+    presets: "best_quality"
+    problem_type: "regression"
     label: "sale_price"
-    eval_metric: "mae"  
+    eval_metric: "mae"

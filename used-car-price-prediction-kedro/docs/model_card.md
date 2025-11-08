@@ -24,6 +24,18 @@ Charakterystyka:
 
 ---
 
+## Metrics
+**Główną metryką** oceny jest **RMSE** (Root Mean Squared Error) — pierwiastek z średniego błędu kwadratowego. Metryka ta szczególnie penalizuje duże odchylenia prognoz od wartości rzeczywistych, dzięki czemu dobrze odzwierciedla ogólną dokładność modelu regresyjnego.
+
+**Metrykami pomocniczymi** są:
+- **MAE** (Mean Absolute Error) — średni błąd bezwzględny, który informuje o przeciętnej różnicy między wartościami przewidywanymi a rzeczywistymi.
+
+- **R²** (Współczynnik determinacji) — miara dopasowania modelu, pokazująca, jaka część zmienności danych jest wyjaśniana przez model (wartość bliska 1 oznacza dobre dopasowanie).
+
+Zbiór danych został podzielony na część **treningową** stanowiącą 80% danych oraz część **testową** obejmującą 20% danych.
+
+---
+
 ## Limitations
 - **Zakres danych** – model został nauczony wyłącznie na danych z jednego regionu (rynek lokalny), przez co może gorzej generalizować na inne kraje lub rynki.
 - **Czasowe ograniczenie** – dane dotyczą określonego okresu, bez uwzględnienia trendów sezonowych lub zmian rynkowych.
@@ -41,4 +53,8 @@ Charakterystyka:
 
 ---
 
-*(Sekcje **Metrics** i **Versioning** zostaną dodane po wyborze finalnego modelu produkcyjnego i publikacji wyników z W&B.)*
+## Versioning
+- W&B run: https://wandb.ai/GRUPA_1_ASI/used-car-price-prediction/runs/060oghd1
+- Model artifact: model_autogluon:v3
+- Data: cleaned_used_cars
+- Env: Python 3.11, AutoGluon 1.4.0
