@@ -217,4 +217,3 @@ class TestAutoGluonNodes:
             assert folder.is_dir(), f"{folder} nie jest katalogiem"
             assert os.access(folder, os.R_OK), f"Brak uprawnień do odczytu {folder}"
             assert os.access(folder, os.W_OK), f"Brak uprawnień do zapisu {folder}"
-
