@@ -29,3 +29,4 @@ dependencies:
       - pytest-cov
       - fastapi
       - uvicorn
+      - sqlalchemy
