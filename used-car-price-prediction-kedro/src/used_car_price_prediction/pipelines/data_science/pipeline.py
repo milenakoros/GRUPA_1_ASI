@@ -27,15 +27,30 @@ def create_pipeline(**kwargs) -> Pipeline:
             name='split_to_train_test'
         ),
         Node(
-            func=nodes.train_baseline,
-            inputs=['X_train', 'y_train', 'params:model'],
-            outputs='model_baseline',
-            name='train_baseline'
+            func=nodes.train_autogluon,
+            inputs=['X_train', 'y_train', 'params:autogluon', 'params:model.random_state'],
+            outputs='model_autogluon',
+            name='train_autogluon'
         ),
         Node(
-            func=nodes.evaluate,
-            inputs=['model_baseline', 'X_test', 'y_test'],
-            outputs='metrics_baseline',
-            name='evaluate'
+            func=nodes.evaluate_autogluon,
+            inputs=['model_autogluon', 'X_test', 'y_test', 'params:autogluon'],
+            outputs='metrics_autogluon',
+            name='evaluate_autogluon'
         )
     ])
+
+"""
+Node(
+    func=nodes.train_baseline,
+    inputs=['X_train', 'y_train', 'params:model'],
+    outputs='model_baseline',
+    name='train_baseline'
+),
+Node(
+    func=nodes.evaluate,
+    inputs=['model_baseline', 'X_test', 'y_test'],
+    outputs='metrics_baseline',
+    name='evaluate'
+)
+"""

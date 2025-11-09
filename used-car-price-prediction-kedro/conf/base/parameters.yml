@@ -6,3 +6,10 @@ model:
   random_state: 42
   n_estimators: 100
   criterion: "squared_error"
+
+autogluon:
+    time_limit: 300
+    presets: "best_quality"
+    problem_type: "regression"
+    label: "sale_price"
+    eval_metric: "mae"
