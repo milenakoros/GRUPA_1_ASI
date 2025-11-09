@@ -12,7 +12,7 @@ from datetime import datetime, timezone
 from sqlalchemy import create_engine, text
 from typing import List
 
-app = FastAPI() 
+app = FastAPI()
 
 DATABASE_PATH = Path(__file__).parents[2] / "data/08_reporting/api_predictions.db"
 DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{DATABASE_PATH}")
@@ -70,7 +70,7 @@ async def startup_event():
     init_db()
     ModelSingleton.get_model()
 
-class Features(BaseModel): 
+class Features(BaseModel):
     car_name: int
     yr_mfr: int
     fuel_type: int
@@ -98,10 +98,10 @@ class Features(BaseModel):
     booking_down_pymnt: int
     reserved: int
     warranty_avail: int
-    
-class Prediction(BaseModel): 
-    prediction: float | int 
-    model_version: str 
+
+class Prediction(BaseModel):
+    prediction: float | int
+    model_version: str
 
 class PredictionLog(BaseModel):
     id: int
@@ -114,13 +114,13 @@ class PredictionLog(BaseModel):
 async def root():
     return RedirectResponse(url="/docs")
 
-@app.get("/healthz") 
-def healthz(): 
-    return {"status": "ok"} 
+@app.get("/healthz")
+def healthz():
+    return {"status": "ok"}
 
 
-@app.post("/predict", response_model=Prediction) 
-def predict(payload: Features): 
+@app.post("/predict", response_model=Prediction)
+def predict(payload: Features):
     model, version = ModelSingleton.get_model()
     input_df = pd.DataFrame([payload.dict()])
     prediction = model.predict(input_df)
