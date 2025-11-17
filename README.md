@@ -4,9 +4,9 @@ ZBIÓR DANYCH: Used Car Price Prediction Dataset 🚗
 
 ### O zbiorze danych
 
-**Nazwa:** Used Car Price Prediction Dataset
-**Źródło:** [Kaggle – Used Car Price Prediction Dataset](https://www.kaggle.com/datasets/vrajesh0sharma7/used-car-price-prediction/data)
-**Zakres początkowy:** 7 400 ogłoszeń samochodów używanych w Indiach opisanych za pomocą 29 cech technicznych i rynkowych.
+- **Nazwa:** Used Car Price Prediction Dataset
+- **Źródło:** [Kaggle – Used Car Price Prediction Dataset](https://www.kaggle.com/datasets/vrajesh0sharma7/used-car-price-prediction/data)
+- **Zakres początkowy:** 7 400 ogłoszeń samochodów używanych w Indiach opisanych za pomocą 29 cech technicznych i rynkowych.
 
 ---
 
@@ -81,7 +81,7 @@ Wszystkie rekordy dotyczą wyłącznie **cech technicznych pojazdów** i danych 
    conda activate asi-ml
 
    #aktualizacja środowiska
-   conda env update -f environment.yml --prune #aktualizacja środowiska
+   conda env update -f environment.yml --prune
    ```
 
 2. Zaloguj się do **Weights & Biases (W&B)**:
@@ -91,6 +91,7 @@ Wszystkie rekordy dotyczą wyłącznie **cech technicznych pojazdów** i danych 
 
 4. Uruchom kedro pipeline'y:
    ```bash
+   #wywołaj wszystkie nody
    kedro run
 
    #wywołaj konkretny pipeline
