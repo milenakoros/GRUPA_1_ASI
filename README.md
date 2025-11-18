@@ -144,7 +144,7 @@ Model ten zapewnia najwyższą precyzję prognoz przy umiarkowanym czasie trenin
 ---
 
 ### FastAPI - Quickstart
-1. Odpalenie lokalnego FastAPI**
+1. Odpalenie lokalnego FastAPI
 ```
 # uruchom fastapi  
 uvicorn src.api.main:app --reload --port 8000 
