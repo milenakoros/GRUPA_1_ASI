@@ -144,12 +144,12 @@ Model ten zapewnia najwyższą precyzję prognoz przy umiarkowanym czasie trenin
 ---
 
 ### FastAPI - Quickstart
-**Odpalenie lokalnego FastAPI**
+1. Odpalenie lokalnego FastAPI**
 ```
 # uruchom fastapi  
 uvicorn src.api.main:app --reload --port 8000 
 ```
-**Przykładowe komendy BASH**
+2. Przykładowe żadania API, przy użyciu BASHa
 ```
 # przykładowy test (GET/healthz) 
 curl http://127.0.0.1:8000/healthz
@@ -187,7 +187,7 @@ curl -X POST http://127.0.0.1:8000/predict \
     "warranty_avail": 0
   }'
 ```
-**Wyświetl zawartość Bazy Danych, przy użyciu BASHa**
+3. Wyświetl zawartość Bazy Danych, przy użyciu BASHa
 ```
 # wyświetl 5 górnych elementów tabeli bazy danych
 sqlite3 "./data/08_reporting/api_predictions.db" "SELECT * FROM predictions LIMIT 5;"
