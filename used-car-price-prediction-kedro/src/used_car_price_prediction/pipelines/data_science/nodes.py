@@ -69,9 +69,9 @@ def split_to_train_test(df: pd.DataFrame, test_size: float, random_state: int) -
 
     return X_train, X_test, y_train, y_test
 
-def train_baseline(X_train: pd.DataFrame, y_train: pd.DataFrame, params: dict) -> PickleDataset:
+def train_baseline(X_train: pd.DataFrame, y_train: pd.DataFrame, params: dict, random_state: int) -> PickleDataset:
     model = RandomForestRegressor(
-        random_state=params['random_state'],
+        random_state=random_state,
         n_estimators=params['n_estimators'],
         criterion=params['criterion']
     )

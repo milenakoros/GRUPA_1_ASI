@@ -4,9 +4,9 @@ ZBIÓR DANYCH: Used Car Price Prediction Dataset 🚗
 
 ### O zbiorze danych
 
-**Nazwa:** Used Car Price Prediction Dataset
-**Źródło:** [Kaggle – Used Car Price Prediction Dataset](https://www.kaggle.com/datasets/vrajesh0sharma7/used-car-price-prediction/data)
-**Zakres początkowy:** 7 400 ogłoszeń samochodów używanych w Indiach opisanych za pomocą 29 cech technicznych i rynkowych.
+- **Nazwa:** Used Car Price Prediction Dataset
+- **Źródło:** [Kaggle – Used Car Price Prediction Dataset](https://www.kaggle.com/datasets/vrajesh0sharma7/used-car-price-prediction/data)
+- **Zakres początkowy:** 7 400 ogłoszeń samochodów używanych w Indiach opisanych za pomocą 29 cech technicznych i rynkowych.
 
 ---
 
@@ -81,7 +81,7 @@ Wszystkie rekordy dotyczą wyłącznie **cech technicznych pojazdów** i danych 
    conda activate asi-ml
 
    #aktualizacja środowiska
-   conda env update -f environment.yml --prune #aktualizacja środowiska
+   conda env update -f environment.yml --prune
    ```
 
 2. Zaloguj się do **Weights & Biases (W&B)**:
@@ -91,6 +91,7 @@ Wszystkie rekordy dotyczą wyłącznie **cech technicznych pojazdów** i danych 
 
 4. Uruchom kedro pipeline'y:
    ```bash
+   #wywołaj wszystkie nody
    kedro run
 
    #wywołaj konkretny pipeline
@@ -112,3 +113,27 @@ Wszystkie rekordy dotyczą wyłącznie **cech technicznych pojazdów** i danych 
 5. Sprawdź wyniki:
    - Model zapisany w: data/06_models/model_baseline.pkl
    - Metryki zapisane w: data/09_tracking/metrics_baseline.json
+
+### Autogluton - wyniki eksperymentów
+
+#### W&B
+Link do projektu: https://wandb.ai/GRUPA_1_ASI/used-car-price-prediction/
+
+#### Wyniki
+
+| Presets                     | Eval Metric | Time Limit (s) |     RMSE ↓    |     MAE ↓    |    R² ↑    |
+| :-------------------------- | :---------- | :------------: | :-----------: | :----------: | :--------: |
+| medium_quality_faster_train | rmse        |       120      |   22 011.67   |   9 086.74   |   0.9942   |
+| best_quality                | mae         |       300      |   18 500.84   |   769.424    |   0.996    |
+| optimize_for_deployment     | r2          |       100      |   21 940.19   |   9 185.8    |   0.9943   |
+| extreme_quality             | rmse        |       500      |   52 031.33   |   7 919.12   |   0.9681   |
+
+#### Wniosek
+Do oceny jakości modeli regresyjnych wybrano trzy główne miary: **RMSE**, **MAE** oraz **R²**.
+
+* **RMSE (Root Mean Squared Error)** pokazuje, jak duże są przeciętne odchylenia prognoz od wartości rzeczywistych – im mniejsza wartość, tym dokładniejsze przewidywania. Jest czuły na duże błędy, dlatego dobrze pokazuje stabilność modelu.
+* **MAE (Mean Absolute Error)** mierzy średni błąd bezwzględny, mniej podatny na wartości odstające, przez co lepiej odzwierciedla ogólną dokładność w typowych przypadkach.
+* **R² (Współczynnik determinacji)** informuje, jak dobrze model wyjaśnia zmienność danych – wartość bliska 1 oznacza bardzo dobrą jakość dopasowania niezależnie od skali danych.
+
+Na podstawie tych metryk można zauważyć, że konfiguracja **`best_quality`** z limitem czasu 300 sekund osiągnęła najlepsze wyniki.
+Model ten zapewnia najwyższą precyzję prognoz przy umiarkowanym czasie treningu, dlatego został uznany za najlepszy kompromis między dokładnością a wydajnością.
