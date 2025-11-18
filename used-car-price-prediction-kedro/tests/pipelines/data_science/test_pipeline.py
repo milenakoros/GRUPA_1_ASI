@@ -108,9 +108,10 @@ class TestDataScienceNodes:
     def test_train_baseline(self):
         X_train = pd.DataFrame({'feature1': [1, 2, 3]})
         y_train = pd.Series([1, 2, 3])
-        params = {'random_state': 42, 'n_estimators': 10, 'criterion': 'squared_error'}
+        params = {'n_estimators': 10, 'criterion': 'squared_error'}
+        random_state = 42
 
-        model = train_baseline(X_train, y_train, params)
+        model = train_baseline(X_train, y_train, params, random_state)
         assert isinstance(model, RandomForestRegressor)
 
     @patch("used_car_price_prediction.pipelines.data_science.nodes.wandb") # Ta linijka jest mocarna
