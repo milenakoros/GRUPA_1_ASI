@@ -140,3 +140,55 @@ Do oceny jakości modeli regresyjnych wybrano trzy główne miary: **RMSE**, **M
 
 Na podstawie tych metryk można zauważyć, że konfiguracja **`best_quality`** z limitem czasu 300 sekund osiągnęła najlepsze wyniki.
 Model ten zapewnia najwyższą precyzję prognoz przy umiarkowanym czasie treningu, dlatego został uznany za najlepszy kompromis między dokładnością a wydajnością.
+
+---
+
+### FastAPI - Quickstart
+**Odpalenie lokalnego FastAPI**
+```
+# uruchom fastapi  
+uvicorn src.api.main:app --reload --port 8000 
+```
+**Przykładowe komendy BASH**
+```
+# przykładowy test (GET/healthz) 
+curl http://127.0.0.1:8000/healthz
+
+# przykładowy payload (POST/predict)
+curl -X POST http://127.0.0.1:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{
+    "car_name": 39,
+    "yr_mfr": 11,
+    "fuel_type": 1,
+    "kms_run": 28652,
+    "city": 1,
+    "times_viewed": 483,
+    "body_type": 0,
+    "transmission": 0,
+    "variant": 171,
+    "assured_buy": 1,
+    "registered_city": 15,
+    "registered_state": 5,
+    "is_hot": 1,
+    "rto": 43,
+    "source": 0,
+    "make": 9,
+    "model": 6,
+    "car_availability": 1,
+    "total_owners": 2,
+    "broker_quote": 386415,
+    "original_price": 395599.0,
+    "car_rating": 2,
+    "fitness_certificate": 1,
+    "emi_starts_from": 9189,
+    "booking_down_pymnt": 59340,
+    "reserved": 0,
+    "warranty_avail": 0
+  }'
+```
+**Wyświetl zawartość Bazy Danych, przy użyciu BASHa**
+```
+# wyświetl 5 górnych elementów tabeli bazy danych
+sqlite3 "./data/08_reporting/api_predictions.db" "SELECT * FROM predictions LIMIT 5;"
+```
