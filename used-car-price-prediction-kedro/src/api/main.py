@@ -12,38 +12,47 @@ from datetime import datetime, timezone
 from sqlalchemy import create_engine, text
 from typing import List
 
-app = FastAPI()
+from .settings import Settings
 
-DATABASE_PATH = Path(__file__).parents[2] / "data/08_reporting/api_predictions.db"
-DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{DATABASE_PATH}")
-engine = create_engine(DATABASE_URL, future=True)
+app = FastAPI()
+settings = Settings()
+
+engine = create_engine(settings.DATABASE_URL, future=True)
 
 class ModelSingleton:
     _model = None
     _model_version = None
-    _model_path = Path(__file__).parents[2] / "data/06_models/ag_production.pkl"
+    _model_path = Path(settings.MODEL_PATH)
     @classmethod
     def get_model(cls):
-        if cls._model is None:
-            if cls._model_path.exists():
-                print("Loading model from local path...")
-                cls._model = joblib.load(cls._model_path)
-                cls._model_version = "local"
-            else:
-                print("Loading model from W&B...")
-                run = wandb.init(project="used-car-price-prediction", job_type="api")
-                artifact = run.use_artifact("GRUPA_1_ASI/used-car-price-prediction/model_autogluon:production", type="model")
-                artifact_dir = artifact.download()
-                model_file = os.path.join(artifact_dir, "ag_production.pkl")
-                cls._model = joblib.load(model_file)
-                cls._model_version = artifact.version
+        if cls._model_path.exists():
+            print("Loading model from local path...")
+            cls._model = joblib.load(cls._model_path)
+            cls._model_version = "local"
+        else:
+            print("Loading model from W&B...")
+            if settings.WANDB_API_KEY:
+                wandb.login(key=settings.WANDB_API_KEY)
+            run = wandb.init(project="used-car-price-prediction", job_type="api")
+
+            artifact = run.use_artifact(
+                "model_autogluon:production"
+                , type="model")
+
+            artifact_dir = artifact.download()
+            model_path = os.path.join(artifact_dir, "ag_production.pkl")
+            cls._model = joblib.load(model_path)
+
+            cls._model_version = artifact.version
+
         return cls._model, cls._model_version
 
 def init_db():
     """Initializes the database and creates the predictions table if it doesn't exist."""
     # Ensure the directory for the database exists
     if engine.url.get_backend_name() == "sqlite":
-        DATABASE_PATH.parent.mkdir(parents=True, exist_ok=True)
+        db_path = Path(engine.url.database)
+        db_path.parent.mkdir(parents=True, exist_ok=True)
 
     with engine.begin() as conn:
         if engine.url.get_backend_name() == "sqlite":
@@ -62,7 +71,6 @@ def save_prediction(payload: dict, prediction: float | int, model_version: str):
             insert_sql,
             {"ts": datetime.now(timezone.utc).isoformat(), "payload": json.dumps(payload), "pred": float(prediction), "ver": model_version},
         )
-
 
 # This will be called on startup to load the model.
 @app.on_event("startup")
