@@ -70,6 +70,7 @@ Zbiór danych przedstawia szczegółowe informacje o samochodach używanych ofer
 Zbiór danych **nie zawiera danych osobowych (PII)** ani informacji wrażliwych.
 Wszystkie rekordy dotyczą wyłącznie **cech technicznych pojazdów** i danych rynkowych.
 
+---
 
 ### Kedro Quickstart
 1. Utwórz środowisko conda:
@@ -113,6 +114,8 @@ Wszystkie rekordy dotyczą wyłącznie **cech technicznych pojazdów** i danych 
 5. Sprawdź wyniki:
    - Model zapisany w: data/06_models/model_baseline.pkl
    - Metryki zapisane w: data/09_tracking/metrics_baseline.json
+
+---
 
 ### Autogluton - wyniki eksperymentów
 
