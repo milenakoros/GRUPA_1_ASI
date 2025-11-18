@@ -98,25 +98,3 @@ To automatically strip out all output cell contents before committing to `git`, 
 ## Package your Kedro project
 
 [Further information about building project documentation and packaging your project](https://docs.kedro.org/en/stable/tutorial/package_a_project.html)
-
-## Wyniki eksperymentów AutoGluon
-
-### W&B
-Link do projektu: https://wandb.ai/GRUPA_1_ASI/used-car-price-prediction/
-
-| Presets                     | Eval Metric | Time Limit (s) |     RMSE ↓    |     MAE ↓    |    R² ↑    |
-| :-------------------------- | :---------- | :------------: | :-----------: | :----------: | :--------: |
-| medium_quality_faster_train | rmse        |       120      |   22 011.67   |   9 086.74   |   0.9942   |
-| best_quality                | mae         |       300      |   18 500.84   |   769.424    |   0.996    |
-| optimize_for_deployment     | r2          |       100      |   21 940.19   |   9 185.8    |   0.9943   |
-| extreme_quality             | rmse        |       500      |   52 031.33   |   7 919.12   |   0.9681   |
-
-### Wniosek
-Do oceny jakości modeli regresyjnych wybrano trzy główne miary: **RMSE**, **MAE** oraz **R²**.
-
-* **RMSE (Root Mean Squared Error)** pokazuje, jak duże są przeciętne odchylenia prognoz od wartości rzeczywistych – im mniejsza wartość, tym dokładniejsze przewidywania. Jest czuły na duże błędy, dlatego dobrze pokazuje stabilność modelu.
-* **MAE (Mean Absolute Error)** mierzy średni błąd bezwzględny, mniej podatny na wartości odstające, przez co lepiej odzwierciedla ogólną dokładność w typowych przypadkach.
-* **R² (Współczynnik determinacji)** informuje, jak dobrze model wyjaśnia zmienność danych – wartość bliska 1 oznacza bardzo dobrą jakość dopasowania niezależnie od skali danych.
-
-Na podstawie tych metryk można zauważyć, że konfiguracja **`best_quality`** z limitem czasu 300 sekund osiągnęła najlepsze wyniki.
-Model ten zapewnia najwyższą precyzję prognoz przy umiarkowanym czasie treningu, dlatego został uznany za najlepszy kompromis między dokładnością a wydajnością.
