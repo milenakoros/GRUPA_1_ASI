@@ -22,13 +22,13 @@ def create_pipeline(**kwargs) -> Pipeline:
         ),
         Node(
             func=nodes.split_to_train_test,
-            inputs=['clean_data', 'params:split.test_size', 'params:split.random_state'],
+            inputs=['clean_data', 'params:split.test_size', 'params:random_state'],
             outputs=['X_train', 'X_test', 'y_train', 'y_test'],
             name='split_to_train_test'
         ),
         Node(
             func=nodes.train_autogluon,
-            inputs=['X_train', 'y_train', 'params:autogluon', 'params:model.random_state'],
+            inputs=['X_train', 'y_train', 'params:autogluon', 'params:random_state'],
             outputs='model_autogluon',
             name='train_autogluon'
         ),
@@ -43,7 +43,7 @@ def create_pipeline(**kwargs) -> Pipeline:
 """
 Node(
     func=nodes.train_baseline,
-    inputs=['X_train', 'y_train', 'params:model'],
+    inputs=['X_train', 'y_train', 'params:model', 'params:random_state],
     outputs='model_baseline',
     name='train_baseline'
 ),

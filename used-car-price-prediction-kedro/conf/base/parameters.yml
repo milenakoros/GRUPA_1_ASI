@@ -1,9 +1,9 @@
+random_state: 42
+
 split:
   test_size: 0.2
-  random_state: 42
 
 model:
-  random_state: 42
   n_estimators: 100
   criterion: "squared_error"
 
