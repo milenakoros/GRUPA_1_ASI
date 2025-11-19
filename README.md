@@ -146,12 +146,12 @@ Model ten zapewnia najwyższą precyzję prognoz przy umiarkowanym czasie trenin
 ### FastAPI - Quickstart
 1. Odpalenie lokalnego FastAPI
 ```
-# uruchom fastapi  
-uvicorn src.api.main:app --reload --port 8000 
+# uruchom fastapi
+uvicorn src.api.main:app --reload --port 8000
 ```
 2. Przykładowe żadania API, przy użyciu BASHa
 ```
-# przykładowy test (GET/healthz) 
+# przykładowy test (GET/healthz)
 curl http://127.0.0.1:8000/healthz
 
 # przykładowy payload (POST/predict)

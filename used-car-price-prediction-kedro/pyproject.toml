@@ -15,8 +15,11 @@ dependencies = [
     "kedro-datasets[pandas-csvdataset, pandas-exceldataset, pandas-parquetdataset, spark-sparkdataset, plotly-plotlydataset, plotly-jsondataset, matplotlib-matplotlibwriter]>=3.0",
     "kedro-viz>=6.7.0",
     "scikit-learn~=1.5.1",
-    "seaborn~=0.12.1",
-    "setuptools; python_version >= '3.12'"
+    "seaborn~=0.12.1", # Already used in nodes.py
+    "setuptools; python_version >= '3.12'",
+    "fastapi~=0.111.0", # For creating the API
+    "uvicorn~=0.29.0", # For running the FastAPI server
+    "wandb~=0.17.0" # For downloading the model from W&B
 ]
 
 [project.scripts]

@@ -161,7 +161,7 @@ class TestAutoGluonNodes:
             label="sale_price",
             problem_type="regression",
             eval_metric="rmse",
-            path="autogluon"
+            path="./autogluon"
         )
         mock_predictor_instance.fit.assert_called_once()
         assert result is mock_predictor_instance.fit.return_value

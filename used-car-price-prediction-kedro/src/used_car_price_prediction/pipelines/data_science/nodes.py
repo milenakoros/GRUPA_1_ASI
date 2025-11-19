@@ -106,7 +106,7 @@ def train_autogluon(X_train: pd.DataFrame, y_train: pd.DataFrame, params: dict, 
         label=params["label"],
         problem_type=params.get("problem_type"),
         eval_metric=params.get("eval_metric"),
-        path="autogluon"
+        path="./autogluon"
     ).fit(
         train_data=train_data,
         time_limit=params.get("time_limit"),

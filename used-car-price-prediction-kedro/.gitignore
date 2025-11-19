@@ -162,8 +162,9 @@ X_test.csv
 y_train.csv
 y_test.csv
 model_baseline.pkl
-metrics_baseline.json
 ag_production.pkl
+api_predictions.db
+metrics_baseline.json
 ag_metrics.json
 
 # mkdocs documentation

@@ -27,3 +27,6 @@ dependencies:
       - pytest
       - wandb
       - pytest-cov
+      - fastapi
+      - uvicorn
+      - sqlalchemy
