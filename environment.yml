@@ -17,7 +17,7 @@ dependencies:
   - kedro-datasets[pandas]
   - pyarrow
   - pandera
-  - pyspark
+  - pyspark=3.5.1
   - pip:
       - bokeh==3.8.0
       - autogluon==1.4.0
@@ -30,3 +30,4 @@ dependencies:
       - fastapi
       - uvicorn
       - sqlalchemy
+      - streamlit
