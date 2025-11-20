@@ -192,3 +192,95 @@ curl -X POST http://127.0.0.1:8000/predict \
 # wyświetl 5 górnych elementów tabeli bazy danych
 sqlite3 "./data/08_reporting/api_predictions.db" "SELECT * FROM predictions LIMIT 5;"
 ```
+
+### Docker Quickstart
+
+Poniższy rozdział przedstawia kompletny przewodnik dotyczący budowania, uruchamiania oraz testowania aplikacji przy użyciu Docker Compose. Znajdziesz tu również instrukcje dostępu do API, panelu UI oraz bazy danych.
+
+---
+
+#### Budowanie i uruchamianie kontenerów
+
+Aby zbudować obrazy Dockera oraz uruchomić wszystkie usługi zdefiniowane w `docker-compose.yml`, wykonaj poniższe polecenie:
+
+```
+docker compose up --build
+```
+
+Po zakończeniu procesu wszystkie komponenty aplikacji będą działać równocześnie.
+
+---
+
+#### API — testowanie endpointów
+
+Po uruchomieniu systemu backend dostępny jest pod adresem `http://localhost:8000`.
+
+1. Sprawdzenie stanu aplikacji (Healthcheck)
+
+```
+curl http://localhost:8000/healthz
+```
+
+2. Wysłanie żądania POST do endpointu `/predict`
+
+```
+curl -X POST http://127.0.0.1:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{
+    "car_name": 39,
+    "yr_mfr": 11,
+    "fuel_type": 1,
+    "kms_run": 28652,
+    "city": 1,
+    "times_viewed": 483,
+    "body_type": 0,
+    "transmission": 0,
+    "variant": 171,
+    "assured_buy": 1,
+    "registered_city": 15,
+    "registered_state": 5,
+    "is_hot": 1,
+    "rto": 43,
+    "source": 0,
+    "make": 9,
+    "model": 6,
+    "car_availability": 1,
+    "total_owners": 2,
+    "broker_quote": 386415,
+    "original_price": 395599.0,
+    "car_rating": 2,
+    "fitness_certificate": 1,
+    "emi_starts_from": 9189,
+    "booking_down_pymnt": 59340,
+    "reserved": 0,
+    "warranty_avail": 0
+  }'
+```
+
+Endpoint zwróci przewidywanie wygenerowane przez model.
+
+---
+
+#### Interfejs użytkownika (UI)
+
+Aplikacja posiada graficzny interfejs działający w Streamlit. Po uruchomieniu systemu można go otworzyć, przechodząc do:
+
+```
+http://localhost:8501
+```
+
+W przeglądarce pojawi się panel do wprowadzania danych i wyświetlania wyników predykcji.
+
+---
+
+#### Dostęp do bazy danych (PostgreSQL)
+
+Kontener z bazą danych PostgreSQL pozwala na wykonywanie zapytań SQL poprzez `psql`.
+
+Aby wejść do kontenera i wykonać przykładowe zapytanie:
+
+```
+docker exec -it <container_db> psql -U app -d appdb -c "select * from predictions limit 5;"
+```
+
+W miejsce `<container_db>` wpisz nazwę kontenera PostgreSQL, np. `db_postgres`.
