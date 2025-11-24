@@ -209,8 +209,6 @@ docker compose up --build
 
 Po zakończeniu procesu wszystkie komponenty aplikacji będą działać równocześnie.
 
----
-
 #### API — testowanie endpointów
 
 Po uruchomieniu systemu backend dostępny jest pod adresem `http://localhost:8000`.
@@ -259,8 +257,6 @@ curl -X POST http://127.0.0.1:8000/predict \
 
 Endpoint zwróci przewidywanie wygenerowane przez model.
 
----
-
 #### Interfejs użytkownika (UI)
 
 Aplikacja posiada graficzny interfejs działający w Streamlit. Po uruchomieniu systemu można go otworzyć, przechodząc do:
@@ -270,8 +266,6 @@ http://localhost:8501
 ```
 
 W przeglądarce pojawi się panel do wprowadzania danych i wyświetlania wyników predykcji.
-
----
 
 #### Dostęp do bazy danych (PostgreSQL)
 
