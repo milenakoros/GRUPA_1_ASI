@@ -193,11 +193,11 @@ curl -X POST http://127.0.0.1:8000/predict \
 sqlite3 "./data/08_reporting/api_predictions.db" "SELECT * FROM predictions LIMIT 5;"
 ```
 
+---
+
 ### Docker Quickstart
 
 Poniższy rozdział przedstawia kompletny przewodnik dotyczący budowania, uruchamiania oraz testowania aplikacji przy użyciu Docker Compose. Znajdziesz tu również instrukcje dostępu do API, panelu UI oraz bazy danych.
-
----
 
 #### Budowanie i uruchamianie kontenerów
 
