@@ -278,3 +278,87 @@ docker exec -it <container_db> psql -U app -d appdb -c "select * from prediction
 ```
 
 W miejsce `<container_db>` wpisz nazwę kontenera PostgreSQL, np. `db_postgres`.
+
+---
+
+### Google Cloud - demo
+Poniżej znajduje się krótkie podsumowanie działania aplikacji po wdrożeniu do Google Cloud Run. Usługa składa się z dwóch komponentów: API (wtyczki do modelu oraz bazy danych) oraz UI (interfejs użytkownika). Obie aplikacje działają w pełni zarządzanym środowisku serwerless, automatycznie skalując się w zależności od obciążenia.
+
+#### API - wtyczki / endpointy
+Link do dokumentacji: https://api-788128052460.europe-central2.run.app/
+
+
+_Przykładowe wtyczki:_ 
+
+GET\health: https://api-788128052460.europe-central2.run.app/health
+
+POST\predict: https://api-788128052460.europe-central2.run.app/predict
+
+przykładowy payload:
+```
+'{
+    "car_name": 39,
+    "yr_mfr": 11,
+    "fuel_type": 1,
+    "kms_run": 28652,
+    "city": 1,
+    "times_viewed": 483,
+    "body_type": 0,
+    "transmission": 0,
+    "variant": 171,
+    "assured_buy": 1,
+    "registered_city": 15,
+    "registered_state": 5,
+    "is_hot": 1,
+    "rto": 43,
+    "source": 0,
+    "make": 9,
+    "model": 6,
+    "car_availability": 1,
+    "total_owners": 2,
+    "broker_quote": 386415,
+    "original_price": 395599.0,
+    "car_rating": 2,
+    "fitness_certificate": 1,
+    "emi_starts_from": 9189,
+    "booking_down_pymnt": 59340,
+    "reserved": 0,
+    "warranty_avail": 0
+  }'
+```
+
+#### UI - streamlitowy interfejs
+Link do UI: https://ui-788128052460.europe-central2.run.app
+
+Tu można przetestować działanie endpoint POST\predict
+
+#### Cloud Logging - Wstęp do diagnozowania
+Od strony projektu, można sprawdzać logi generowanie przez projekt (endpointów, ui, użytkowników którzy skorzystali z UI, ect.)
+Aby skorzystać z wglądu, potrzebny jest dostęp do projektu a w nim należy wybrać opcję _Ekploracji Logów_
+Link do  https://console.cloud.google.com/logs/
+
+Diagnozę można odbyć poprzez odfiltrowanie historii logów - w sekcji zapytania można ustawić filtry na konkretne pola rekordów:
+```
+# Odfiltrowanie konkretnej usługi
+resource.labels.service_name="<nazwa-usługi>"
+
+# Wybór typu logu jako rewizja
+resource.type="cloud_run_revision"
+```
+
+Można również sprawdzić opis danej usługi, aby zobaczyć jej parametry, zasoby oraz ścieżki środowiskowe z których korzysta
+```
+gcloud run services describe {nazwa_usługi} --region={region}
+```
+
+#### Cloud Run - szczegółu usług
+Usługi zostały zaprojektowane w taki sposób, aby były publicznie dostępne, zarówno efektywne jak i oszczędne w zasobach (gdy naprzykład nikt z nich nie korzysta)
+Poniżej znajdują się parametry, które zostały przypisane do każdej z usług:
+```
+--allow-unauthenticated     # pozwala wywoływać usługę bez logowania (publiczna)
+--min-instances=0           # usługa może skalować się do zera, gdy nic jej nie wywołuje (oszczędność kosztów)
+--max-instances=2           # maksymalnie 2 równoległe instancje (kontrola kosztów i kolejkowanie dużej ilości zapytań)
+--timeout=10s               # request może trwać maksymalnie 10 sekund
+--cpu=1                     # każda instancja dostaje 1 rdzeń CPU
+--memory=512Mi              # każda instancja dostaje 512 MB RAM
+```

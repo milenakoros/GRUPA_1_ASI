@@ -55,6 +55,8 @@ Zbiór danych został podzielony na część **treningową** stanowiącą 80% da
 
 ## Versioning
 - W&B run: https://wandb.ai/GRUPA_1_ASI/used-car-price-prediction/runs/060oghd1
-- Model artifact: model_autogluon:v3
+- Model artifact: model_autogluon:v3 (alias: production)
+- Git commit SHA: 2f0abc3187bd14ab9cb99ce4f8adc0ad6124a110 (tag ostatniego commitu)
+- Container image: europe-central2-docker.pkg.dev/used-car-price-prediction-gc/used-car-price-prediction-repo/api
 - Data: cleaned_used_cars
 - Env: Python 3.11, AutoGluon 1.4.0
