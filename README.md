@@ -257,7 +257,7 @@ curl -X POST http://127.0.0.1:8000/predict \
 
 Endpoint zwróci przewidywanie wygenerowane przez model.
 
-#### Interfejs użytkownika (UI)
+#### UI — Interfejs użytkownika
 
 Aplikacja posiada graficzny interfejs działający w Streamlit. Po uruchomieniu systemu można go otworzyć, przechodząc do:
 
@@ -267,7 +267,7 @@ http://localhost:8501
 
 W przeglądarce pojawi się panel do wprowadzania danych i wyświetlania wyników predykcji.
 
-#### Dostęp do bazy danych (PostgreSQL)
+#### BD — Dostęp do bazy danych (PostgreSQL)
 
 Kontener z bazą danych PostgreSQL pozwala na wykonywanie zapytań SQL poprzez `psql`.
 
