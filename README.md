@@ -288,7 +288,7 @@ Poniżej znajduje się krótkie podsumowanie działania aplikacji po wdrożeniu 
 Link do dokumentacji: https://api-788128052460.europe-central2.run.app/
 
 
-_Przykładowe wtyczki:_ 
+_Przykładowe wtyczki:_
 
 GET\health: https://api-788128052460.europe-central2.run.app/health
 
