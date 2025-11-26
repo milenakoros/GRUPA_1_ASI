@@ -1,8 +1,8 @@
-
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 import joblib
+from autogluon.tabular import TabularPredictor
 import os
 import wandb
 import pandas as pd
@@ -27,7 +27,13 @@ class ModelSingleton:
     def get_model(cls):
         if cls._model_path.exists():
             print("Loading model from local path...")
-            cls._model = joblib.load(cls._model_path)
+            try:
+                cls._model = joblib.load(cls._model_path)
+            except:
+                try:
+                    cls._model = TabularPredictor.load(cls._model_path)  ## joblib -> TabularPredictor
+                except:
+                    print("ERROR: Local model could not be loaded")
             cls._model_version = "local"
         else:
             print("Loading model from W&B...")
@@ -41,6 +47,7 @@ class ModelSingleton:
 
             artifact_dir = artifact.download()
             model_path = os.path.join(artifact_dir, "ag_production.pkl")
+
             cls._model = joblib.load(model_path)
 
             cls._model_version = artifact.version
