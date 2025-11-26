@@ -87,7 +87,7 @@ def test_predict_and_db_write(test_db_engine, dummy_payload):
 
     assert after == before + 1
 
-def test_healthz():
-    r = client.get("/healthz")
+def test_health():
+    r = client.get("/health")
     assert r.status_code == 200
     assert r.json() == {"status": "ok"}

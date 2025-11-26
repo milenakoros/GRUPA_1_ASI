@@ -129,10 +129,9 @@ class PredictionLog(BaseModel):
 async def root():
     return RedirectResponse(url="/docs")
 
-@app.get("/healthz")
-def healthz():
+@app.get("/health")
+def health():
     return {"status": "ok"}
-
 
 @app.post("/predict", response_model=Prediction)
 def predict(payload: Features):
