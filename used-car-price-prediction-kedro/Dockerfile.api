@@ -1,17 +1,17 @@
-FROM python:3.11-slim 
+FROM python:3.11-slim
 
-WORKDIR /app 
+WORKDIR /app
 
-COPY pyproject.toml ./ 
+COPY pyproject.toml ./
 
-COPY src ./src 
+COPY src/api ./src/api
 
 COPY autogluon ./autogluon
 
-COPY data/06_models ./data/06_models 
+COPY data/06_models ./data/06_models
 
 RUN pip install --no-cache-dir uvicorn fastapi pydantic pydantic-settings joblib sqlalchemy psycopg2-binary wandb pandas autogluon
 
-EXPOSE 8000 
+EXPOSE 8000
 
-CMD ["uvicorn","src.api.main:app","--host","0.0.0.0","--port","8000"] 
+CMD ["uvicorn","src.api.main:app","--host","0.0.0.0","--port","8000"]
