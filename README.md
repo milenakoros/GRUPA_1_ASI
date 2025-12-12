@@ -1,4 +1,22 @@
-ZBIÓR DANYCH: Used Car Price Prediction Dataset 🚗
+# Predykcja cen samochodów używanych 🚗
+
+---
+
+Projekt ma na celu budowę kompletnego systemu do przewidywania ceny samochodów używanych na podstawie ich cech technicznych, użytkowych oraz informacji rynkowych. Aplikacja łączy elementy uczenia maszynowego, przetwarzania danych oraz nowoczesnej architektury aplikacji webowej.
+
+System umożliwia użytkownikowi wprowadzenie parametrów pojazdu poprzez interfejs graficzny, a następnie otrzymanie estymowanej ceny rynkowej w czasie rzeczywistym. Całość została zaprojektowana w sposób modularny, umożliwiający łatwą rozbudowę oraz wdrożenie w środowisku produkcyjnym.
+
+---
+
+### Cel projektu
+
+Głównym celem projektu jest:
+- opracowanie modelu uczenia maszynowego do estymacji cen samochodów używanych,
+- stworzenie skalowalnej architektury obejmującej API, interfejs użytkownika oraz bazę danych,
+- zastosowanie dobrych praktyk inżynierii danych i MLOps (Kedro, Docker, eksperymenty ML),
+- umożliwienie łatwego testowania i wdrażania rozwiązania lokalnie oraz w chmurze.
+
+Projekt pełni również funkcję demonstracyjną, prezentując kompletny przepływ danych — od surowych danych, przez trenowanie modelu, aż po udostępnienie predykcji końcowemu użytkownikowi.
 
 ---
 
@@ -195,6 +213,46 @@ sqlite3 "./data/08_reporting/api_predictions.db" "SELECT * FROM predictions LIMI
 
 ---
 
+### Architektura systemu i przepływ danych
+
+Projekt został zaprojektowany w architekturze rozdzielonych komponentów, gdzie każda warstwa odpowiada za jasno określoną odpowiedzialność. System składa się z trzech głównych elementów: UI (Streamlit), API (FastAPI) oraz bazy danych (PostgreSQL). 
+
+#### UI — Streamlit
+
+Warstwa UI odpowiada za interakcję z użytkownikiem końcowym.
+
+- Użytkownik wprowadza dane pojazdu poprzez formularz w aplikacji Streamlit.
+- UI nie zawiera logiki modelu ani bezpośredniego dostępu do bazy danych.
+- Po zatwierdzeniu formularza dane są wysyłane jako zapytanie HTTP `POST` do backendu API.
+- UI odbiera odpowiedź z predykcją i wyświetla wynik użytkownikowi.
+
+Komunikacja UI -> API odbywa się wyłącznie przez REST API.
+
+
+#### API — FastAPI
+
+API pełni rolę centralnego punktu integracyjnego systemu.
+
+- Odbiera żądania `POST /predict` z UI.
+- Waliduje dane wejściowe na podstawie zdefiniowanego schematu.
+- Ładuje wytrenowany model ML.
+- Generuje predykcję na podstawie przekazanych cech.
+- Zapisuje dane wejściowe oraz wynik predykcji do bazy danych PostgreSQL.
+- Zwraca wynik predykcji do UI.
+
+API jest niezależne od UI i może być używane przez inne systemy lub narzędzia testowe.
+
+#### Baza danych — PostgreSQL
+
+Baza danych służy do trwałego przechowywania wyników działania systemu.
+
+- Przechowuje dane wejściowe zapytań oraz wygenerowane predykcje.
+- Umożliwia audyt, analizę i monitoring działania modelu.
+- Nie jest bezpośrednio dostępna z poziomu UI.
+- Dostęp do bazy danych realizowany jest wyłącznie przez API.
+
+---
+
 ### Docker Quickstart
 
 Poniższy rozdział przedstawia kompletny przewodnik dotyczący budowania, uruchamiania oraz testowania aplikacji przy użyciu Docker Compose. Znajdziesz tu również instrukcje dostępu do API, panelu UI oraz bazy danych.
@@ -362,3 +420,138 @@ Poniżej znajdują się parametry, które zostały przypisane do każdej z usłu
 --cpu=1                     # każda instancja dostaje 1 rdzeń CPU
 --memory=512Mi              # każda instancja dostaje 512 MB RAM
 ```
+
+---
+
+### Struktura projektu 
+
+.
+├── data
+│   └── 01_raw
+│       └── Used_Car_Price_Prediction.csv     # Surowy zbiór danych wejściowych do projektu
+│
+├── sprint-1-archive                          # Archiwum materiałów z pierwszego sprintu (nieaktywna część projektu)
+│   ├── conf
+│   │   └── base
+│   │       ├── catalog.yml                   # Definicje datasetów Kedro (archiwalne)
+│   │       └── parameters.yml                # Parametry pipeline’ów z pierwszego sprintu
+│   │
+│   ├── data                                  # Dane na różnych etapach przetwarzania (archiwalne)
+│   │   ├── 01_raw/
+│   │   ├── 02_interim/
+│   │   ├── 03_processed/
+│   │   ├── 06_models/
+│   │   └── 09_tracking/
+│   │
+│   ├── notebooks
+│   │   ├── 01_eda.ipynb                      # Eksploracyjna analiza danych
+│   │   └── 02_baseline_ml.ipynb              # Prosty model bazowy
+│   │
+│   └── src
+│       └── project_name
+│           └── pipelines
+│               └── data_science
+│                   ├── nodes.py
+│                   └── pipeline.py
+│
+├── tests
+│   ├── test_cleaning.py                      
+│   └── test_smoke.py
+│
+├── used-car-price-prediction-kedro           # Główna aplikacja projektu oparta o Kedro
+|   ├── artifacts
+|   │   └── model_autogluon-v3
+|   │       └── ag_production.pkl             # Wytrenowany model produkcyjny pobrany z w&b
+|   │
+|   ├── autogluon/                            # Pliki pomocnicze / cache związane z AutoGluon
+|   │
+|   ├── conf
+|   │   ├── base
+|   │   │   ├── catalog.yml                   # Centralna definicja datasetów Kedro
+|   │   │   ├── parameters.yml                # Parametry globalne projektu
+|   │   │   ├── parameters_data_science.yml   # Parametry pipeline’u data science
+|   │   │   └── spark.yml                     # Konfiguracja Spark
+|   │   │
+|   │   └── local
+|   │       └── logging.yml
+|   │
+|   ├── data
+|   │   ├── 01_raw                            # Surowe dane wejściowe
+|   │   │   └── used_cars_sample.csv          
+|   │   │
+|   │   ├── 02_interim                        # Dane po wstępnym czyszczeniu
+|   │   │   └── cleaned_used_cars.csv         
+|   │   │
+|   │   ├── 03_processed                      # Dane gotowe do trenowania modeli
+|   │   │   ├── X_test.csv
+|   │   │   ├── X_train.csv
+|   │   │   ├── Y_test.csv
+|   │   │   └── Y_train.csv
+|   │   │
+|   │   ├── 06_models                         # Zapisane modele ML
+|   │   │   ├── ag_production.pkl
+|   │   │   └── model_baseline.pkl
+|   │   │
+|   │   └── 09_tracking                       # Metryki i wyniki eksperymentów
+|   │       ├── ag_metrics.json
+|   │       └── metrics_baseline.json
+|   │
+|   ├── docs
+|   │   ├── model_card.md                     # Opis modelu i jego ograniczeń
+|   │   └── source                            # Dokumentacja generowana (Sphinx)
+|   │       ├── conf.py
+|   │       └── index.rst
+|   │
+|   ├── notebooks
+|   |   ├── 01_eda.ipynb                      # Eksploracyjna analiza danych
+|   |   └── 02_baseline_ml.ipynb              # Prosty model bazowy
+|   |
+|   ├── src
+|   |   ├── api
+|   |   |   ├── main.py                       # Backend API (FastAPI)
+|   |   |   └── settings.py                   # Konfiguracja API
+|   |   |
+|   |   ├── ui 
+|   |   |   └── app.py                        # Interfejs użytkownika
+|   |   | 
+|   |   └── used_car_price_prediction         # Główny pakiet Kedro
+|   │       ├── pipelines
+|   │       │   ├── __init__.py
+|   │       │   └── data_science
+|   │       │       ├── __init__.py
+|   │       │       ├── df_structure.py       # Definicje struktur danych
+|   │       │       ├── nodes.py              # Funkcje obliczeniowe pipeline’u
+|   │       │       └── pipeline.py           # Definicja pipeline’u Kedro
+|   |       |
+|   │       ├── __init__.py
+|   │       ├── __main__.py                   # Punkt wejścia aplikacji Kedro
+|   │       ├── hooks.py                      # Hooki Kedro 
+|   │       ├── pipeline_registry.py          # Rejestracja pipeline’ów
+|   │       └── settings.py                   # Ustawienia projektu Kedro
+|   |
+|   ├──  tests
+|   │   ├── pipelines
+|   |   |   ├── __init__.py
+|   │   |   └── data_science
+|   │   │       ├── __init__.py
+|   │   │       └── test_pipeline.py          # Testy pipeline’u data science
+|   |   |
+|   │   ├── __init__.py
+|   │   ├── test_api.py                       # Testy endpointów API
+|   │   └── test_run.py                       # Test poprawnego uruchomienia projektu
+|   |
+|   ├── wandb/                                # Katalog z danymi i logami eksperymentów Weights & Biases
+|   ├── .dockerignore                         # Pliki i katalogi ignorowane podczas budowania obrazów Docker
+|   ├── .env.example                          # Przykładowy plik zmiennych środowiskowych
+|   ├── .gitignore                        
+|   ├── docker-compose.yml                    # Definicja usług (API, UI, SQL) uruchamianych w Docker Compose
+|   ├── Dockerfile.api                        # Instrukcje budowania obrazu Dockera dla backendu API
+|   ├── Dockerfile.ui                         # Instrukcje budowania obrazu Dockera dla interfejsu użytkownika
+|   ├── pyproject.toml                        # Konfiguracja projektu Python (zależności, narzędzia, formatowanie)
+|   ├── README.md                             # Dokumentacja projektu Kedro
+|   └── requirements.txt
+|
+├── .gitignore
+├── .pre-commit-config.yaml                   # Konfiguracja hooków pre-commit
+├── environment.yml                           # Definicja środowiska Conda dla projektu
+└── README.md                                 # Główny opis repozytorium i instrukcje ogólne
