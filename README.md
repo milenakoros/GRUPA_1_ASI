@@ -425,6 +425,7 @@ Poniżej znajdują się parametry, które zostały przypisane do każdej z usłu
 
 ### Struktura projektu 
 
+```
 .
 ├── data
 │   └── 01_raw
@@ -555,3 +556,4 @@ Poniżej znajdują się parametry, które zostały przypisane do każdej z usłu
 ├── .pre-commit-config.yaml                   # Konfiguracja hooków pre-commit
 ├── environment.yml                           # Definicja środowiska Conda dla projektu
 └── README.md                                 # Główny opis repozytorium i instrukcje ogólne
+```
