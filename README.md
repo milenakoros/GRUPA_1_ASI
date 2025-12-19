@@ -423,6 +423,12 @@ Poniżej znajdują się parametry, które zostały przypisane do każdej z usłu
 
 ---
 
+### Wizualizacja pipeline'u Kedro
+
+<img width="1042" height="2050" alt="kedro-pipeline" src="https://github.com/user-attachments/assets/9dd43fcc-f72b-4c44-ab2b-263117ae0d06" />
+
+---
+
 ### Struktura projektu 
 
 ```
